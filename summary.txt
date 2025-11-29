@@ -1,0 +1,51 @@
+Jellyfin Media Manager Summary - october 2, 2025
+
+Features:
+- **Tab Navigation**: Switch between Movies, Series, Music, and Photos tabs to filter content.
+- **View Options**: Toggle between grid and list views for media display.
+- **Search Functionality**: Search media by name, year, genres, tags, people, or studios with real-time filtering.
+- **Library Selection**: Choose from available Jellyfin libraries (e.g., Movies, TV Shows) to manage content.
+- **Content Type Filtering**: Filter by specific types (Movies, Series, Music, Photos, or All).
+- **Media Selection**: Multi-select items with checkboxes for bulk editing; includes Select All and Clear options.
+- **Edit Metadata**: Edit individual item titles, years, overviews, ratings, genres, and tags via a modal.
+- **Bulk Editing**: Apply metadata changes (genres, tags, rating, director, studio, actor) to multiple items or folder contents.
+- **Navigation**: Navigate into folders (including Photo Albums and Video Folders) with a back button for history.
+- **People Management**: Search and add existing people (actors, directors) or create new person entries with photos.
+- **Error Handling**: Display alerts for connection issues, failed loads, or save errors.
+- **Offline Support**: Fully functional with a local Jellyfin server (e.g., http://localhost:8096) without internet access.
+
+Distinctions:
+- **Photo Albums**: Light blue background (#e6f3ff) with a 2px dashed blue border (#60a5fa).
+- **Video Folders**: Light green background (#ecfdf5) with a 2px solid green border (#34d399).
+- **Selected Items**: Purple border (#9333ea) and light purple background (#f5e6ff) for selected media items.
+- **Image Consistency**: All poster images standardized to 200px x 300px with object-fit: cover for uniform display.
+- **Icon Removal**: Icons removed from media items to avoid checkbox interference in list view.
+
+API Version: Jellyfin API v10.8.10 (compatible with server-side endpoints for Users, Items, and Views).
+Server Version: Jellyfin Server v10.8.10 (assumed based on API compatibility; adjust if different).
+
+
+<<<<<<<<<<whats new>>>>>>
+
+🎨 Visual & UI Improvements(CSS):
+>Modern Dark Theme - Professional dark mode with purple accents
+>improved look for html elements and added consistency for the metadata dialogs.
+>Added a preloader as content from a folder loads.
+>Glass-morphism Modals - Sleek modal design with backdrop blur
+
+
+🔧 Functional Fixes(JS):
+>Bulk Modal Close - Fixed X button and click-outside closing
+
+
+>able to modify metadata for a single file. but not bulk.
+>lacks the cast/crew attribute.
+
+
+bulk edit now works, but doesn't work correctly when folders are selected.
+
+
+added favicon and made checkboxes transparent.
+
+added a progress bar to the bulk metadata form.
+

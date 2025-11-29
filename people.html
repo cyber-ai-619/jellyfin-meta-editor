@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People - Jellyfin Media Manager</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="people.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Jellyfin People Manager</h1>
+            <div id="server-info">Not connected</div>
+        </header>
+        <div class="controls">
+            <div class="tab-controls">
+                <a href="index.html" class="tab">Library</a>
+                <button class="tab active">People</button>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="grid">
+                    <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4zm6-10v4h4v-4h-4z"/></svg>
+                </button>
+                <button class="view-btn" data-view="square">
+                    <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h18v-2H3v2zm0 4h18v-2H3v2zm0 4h18v-2H3v2z"/></svg>
+                </button>
+            </div>
+            <div class="filter-controls">
+                <input type="text" id="search-people-input" placeholder="Search people...">
+                <select id="people-role-select">
+                    <option value="all">All Roles</option>
+                    <option value="Actor">Actors</option>
+                    <option value="Director">Directors</option>
+                    <option value="Writer">Writers</option>
+                    <option value="Producer">Producers</option>
+                </select>
+            </div>
+            <div class="selection-controls" id="people-bulk-actions" style="display: none;">
+                <span id="people-selected-count">0 people selected</span>
+                <input type="checkbox" id="people-select-all">
+                <button id="people-clear-selection">Clear</button>
+                <button id="people-bulk-edit-btn">Bulk Edit</button>
+            </div>
+        </div>
+        <div id="people-container"></div>
+
+        <!-- Edit Person Modal (Reused from main page) -->
+        <div id="edit-person-modal" class="modal">
+            <div class="modal-content">
+                <h2>Edit Person<span id="close-person-modal">&times;</span></h2>
+                <div id="person-modal-alert"></div>
+                <form id="person-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="person-name">Name *</label>
+                            <input type="text" id="person-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="person-role">Primary Role</label>
+                            <select id="person-role">
+                                <option value="Actor">Actor</option>
+                                <option value="Director">Director</option>
+                                <option value="Writer">Writer</option>
+                                <option value="Producer">Producer</option>
+                                <option value="Composer">Composer</option>
+                                <option value="Cinematographer">Cinematographer</option>
+                                <option value="Editor">Editor</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="person-birth-date">Birth Date</label>
+                            <input type="date" id="person-birth-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="person-death-date">Death Date</label>
+                            <input type="date" id="person-death-date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="person-biography">Biography</label>
+                        <textarea id="person-biography" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-label">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                                Upload Photo
+                            </div>
+                            <input type="file" id="person-photo" accept="image/*">
+                        </div>
+                        <div id="person-photo-preview">
+                            <div class="photo-preview empty">No photo selected</div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="save-person" class="primary">Save Person</button>
+                        <button type="button" id="cancel-person" class="secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Create New Person Modal -->
+        <div id="create-person-modal" class="modal">
+            <div class="modal-content">
+                <h2>Create New Person<span id="close-create-person-modal">&times;</span></h2>
+                <div id="create-person-alert"></div>
+                <form id="create-person-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="new-person-name">Name *</label>
+                            <input type="text" id="new-person-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-person-role">Primary Role</label>
+                            <select id="new-person-role">
+                                <option value="Actor">Actor</option>
+                                <option value="Director">Director</option>
+                                <option value="Writer">Writer</option>
+                                <option value="Producer">Producer</option>
+                                <option value="Composer">Composer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="create-new-person" class="primary">Create Person</button>
+                        <button type="button" id="cancel-create-person" class="secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="people.js"></script>
+</body>
+</html>
