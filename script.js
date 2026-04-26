@@ -1,7 +1,7 @@
 // Configuration - shared between both pages
 const config = {
-    serverUrl: 'http://localhost:8096',
-    apiKey: '5fd44655d40a49e0979b7b0b5c738a40'
+    serverUrl: 'http://\\LATITUDE-DELL:8096',
+    apiKey: '6ab021157cef480a91e2326f5f7bb268'
 };
 
 // Common utility functions
